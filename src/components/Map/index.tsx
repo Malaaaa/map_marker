@@ -1,43 +1,44 @@
 import React, { useCallback, useRef } from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
+import { GoogleMap, Marker } from "@react-google-maps/api"
 import { Card, Row } from 'antd'
 import { useGoogleMap } from "@react-google-maps/api";
+import { useAppSelector } from '../../store/hooks';
 
 type MapType = ReturnType<typeof useGoogleMap>;
-export interface Props {
-    markers: google.maps.LatLngLiteral[] | null;
-    showPolys?: boolean;
-    markerInfo?: React.FC;
-}
 
-function Map() {
-    const coordinates = { lat: 43.651893615722656, lng: -79.3817138671875 }
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    })
+function Map({ isLoaded }: { isLoaded: boolean }) {
+    const locations = useAppSelector((state) => { return state.locations.locations })
     const mapRef = useRef<MapType>(null);
-    const onLoad = useCallback((map: MapType) => {
+    const mapOnLoad = useCallback((map: MapType) => {
         mapRef.current = map;
     }, []);
     return (
         <Row>
-            <Card>
-                {isLoaded && (<GoogleMap mapContainerStyle={{
-                    width: '100%',
-                    height: '100%'
-                }}
-                    center={coordinates}
-                    options={{ zoomControl: false, streetViewControl: false, mapTypeControl: false }}
-                    streetView={undefined}
-                    zoom={12}
-                    onLoad={onLoad}
-                >
-                    <Marker key={1}
-                        position={coordinates}
-                    />
-                </GoogleMap>)}
-            </Card>
+            {isLoaded && (
+                <>
+                    <Card>
+                        <GoogleMap mapContainerStyle={{
+                            width: '100%',
+                            height: '100%'
+                        }}
+                            center={locations.length !== 0 ?
+                                { lat: parseFloat(locations?.[locations.length - 1].lat), lng: parseFloat(locations?.[0].lng) } :
+                                { lat: 43.651893615722656, lng: -79.3817138671875 }}
+                            options={{ zoomControl: false, streetViewControl: false, mapTypeControl: false }}
+                            streetView={undefined}
+                            zoom={12}
+                            onLoad={mapOnLoad}
+                        >
+                            {locations.length !== 0 && locations.map((location) => {
+                                return <Marker key={location.key}
+                                    position={{ lat: parseFloat(location.lat), lng: parseFloat(location.lng) }}
+                                />
+                            })
+                            }
+                            <></>
+                        </GoogleMap>
+                    </Card>
+                </>)}
 
         </Row>
     )

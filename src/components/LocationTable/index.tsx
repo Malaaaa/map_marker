@@ -1,64 +1,71 @@
 import React, { useState } from 'react'
-import { Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
-interface DataType {
-    key: React.Key;
-    name: string;
-    address: string;
-    timeZone: string;
-    localTime: string;
-}
+import { useAppSelector } from '../../store/hooks';
+import { Location } from '../../types';
+import moment from 'moment-timezone';
+import { delLocation } from '../../store/slice/locations.slice';
+import { useAppDispatch } from '../../store/hooks';
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<Location> = [
     {
         title: 'Name',
         dataIndex: 'name',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
+        key: 'name',
     },
     {
         title: 'Time Zone',
-        dataIndex: 'timeZone',
+        dataIndex: 'timezone',
+        key: 'timezone',
+    },
+    {
+        title: 'lat',
+        dataIndex: 'lat',
+        key: 'lat',
+    },
+    {
+        title: 'lng',
+        dataIndex: 'lng',
+        key: 'lng',
     },
     {
         title: 'Local Time',
-        dataIndex: 'localTime',
+        key: 'localtime',
+        render: (_, record) => {
+            const date = moment()
+            return (
+                <Space size="middle">
+                    {date.tz(record.timezone).format('h:ma z')}
+                </Space>
+            )
+        },
     },
 ];
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        name: `Edward King ${i}`,
-        address: `London, Park Lane no. ${i}`,
-        timeZone: '32',
-        localTime: '32',
-    });
-}
-function LocationTable() {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
+function LocationTable() {
+    const dispatch = useAppDispatch();
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const locations = useAppSelector((state) => { return state.locations.locations })
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
     };
-
+    const onDelete = () => {
+        if (selectedRowKeys.length > 0) {
+            dispatch(delLocation(selectedRowKeys as string[]))
+        }
+    };
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
     };
-    const hasSelected = selectedRowKeys.length > 0;
+
 
     return (
         <div>
             <div style={{ marginBottom: 16 }}>
-                <span style={{ marginLeft: 8 }}>
-                    {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                </span>
+                <Button danger onClick={onDelete}> Delete  </Button>
             </div>
-            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+            <Table rowSelection={rowSelection} columns={columns} dataSource={[...locations.values()]} />
         </div>
     );
 }

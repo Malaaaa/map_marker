@@ -1,7 +1,8 @@
 export interface Location {
+    key: string;
     name: string;
-    coord: google.maps.LatLngLiteral;
+    lat: string;
+    lng: string;
     timezone: string;
-    localtime: string;
     toggle: boolean;
 }
