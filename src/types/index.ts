@@ -3,6 +3,6 @@ export interface Location {
     name: string;
     lat: string;
     lng: string;
-    timezone: string;
+    timezone: number;
     toggle: boolean;
 }

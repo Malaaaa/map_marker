@@ -10,9 +10,7 @@ This repo is bootstraped with [vite-react-ts-antd-esLint-prettier](https://githu
 
 -- use google map display and qurey location infomation.
 
--- use Geonames api get TimeZone id
-
--- use Redux Toolkit, React Thunk manage statement. (sync and async)
+-- use Redux Toolkit manage statement.
 
 ## 💄 Project Setup
 
@@ -26,8 +24,6 @@ Creat `.env` in the project of root directory
 ```.env
 VITE_GOOGLE_MAPS_API_KEY = 
 VITE_GOOGLE_MAPS_API_URL = https://maps.googleapis.com/maps/api/
-VITE_GEONAMES_MAPS_API_URL = http://api.geonames.org/
-VITE_GEONAMES_MAPS_API_KEY = 
 ```
 
 Install Dependencies

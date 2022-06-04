@@ -1,6 +1,6 @@
 import { Button, Layout } from 'antd'
 import styles from './index.module.less';
-import { fetchLocation } from '../../store/slice/locations.slice';
+import { addLocation } from '../../store/slice/locations.slice';
 import { useAppDispatch } from '../../store/hooks';
 import React, { useCallback, useRef, useState } from 'react'
 import { StandaloneSearchBox } from "@react-google-maps/api"
@@ -15,13 +15,13 @@ function LocationSearchPanel({ isLoaded }: { isLoaded: boolean }) {
         navigator.geolocation.getCurrentPosition(function (position) {
             const location: Location = {
                 key: uuidv4(),
-                name: "current",
+                name: "Current Location",
                 lat: position.coords.latitude.toString(),
                 lng: position.coords.longitude.toString(),
                 toggle: false,
-                timezone: ''
+                timezone: new Date().getTimezoneOffset(),
             }
-            dispatch(fetchLocation({ method: "geolocation", location: location }))
+            dispatch(addLocation(location))
         });
     };
     const standaloneSearchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
@@ -34,21 +34,21 @@ function LocationSearchPanel({ isLoaded }: { isLoaded: boolean }) {
     };
     const onSearch = () => {
         //Place the event in the macro task to ensure that the location has been checked
-        setTimeout(() => { console.log("first") })
+        setTimeout(() => { console.log("") })
         if (standaloneSearchBoxRef.current !== null) {
             const postions = standaloneSearchBoxRef.current.getPlaces()
             // dispatch(fetchLocation({ method: { lat: position, lng: position } }))
-            if (postions?.[0].geometry?.location && postions?.[0].formatted_address) {
+            if (postions?.[0].geometry?.location && postions?.[0].formatted_address && postions[0].utc_offset_minutes) {
                 const location: Location = {
                     key: uuidv4(),
                     name: postions[0].formatted_address.toString(),
                     lat: postions[0].geometry.location.lat().toString(),
                     lng: postions[0].geometry.location.lng().toString(),
                     toggle: false,
-                    timezone: ''
+                    timezone: postions[0].utc_offset_minutes,
                 }
 
-                dispatch(fetchLocation({ method: "google", location: location }))
+                dispatch(addLocation(location))
                 setSearchvalue("")
             } else {
                 console.log('not input anything yet!')

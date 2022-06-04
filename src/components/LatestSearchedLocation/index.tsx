@@ -9,12 +9,12 @@ function LatestSearchedLocation() {
     const locations = useAppSelector((state) => { return state.locations.locations })
     if (locations.length !== 0) {
         setInterval(() => {
-            setTime(moment().tz(locations[locations.length - 1].timezone).format('h:mm:ssa z'));
+            setTime(moment().utcOffset(-locations[locations.length - 1].timezone).format('h:mm:ssa zz'));
         }, 1000)
     }
     return (
         <Row>{locations.length !== 0 &&
-            <Space><p>{locations[locations.length - 1].name}</p>
+            <Space>
                 <p>{time}</p>
             </Space>}
         </Row>

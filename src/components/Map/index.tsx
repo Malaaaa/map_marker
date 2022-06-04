@@ -12,6 +12,7 @@ function Map({ isLoaded }: { isLoaded: boolean }) {
     const mapOnLoad = useCallback((map: MapType) => {
         mapRef.current = map;
     }, []);
+
     return (
         <Row>
             {isLoaded && (

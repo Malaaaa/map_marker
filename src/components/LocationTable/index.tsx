@@ -15,8 +15,14 @@ const columns: ColumnsType<Location> = [
     },
     {
         title: 'Time Zone',
-        dataIndex: 'timezone',
         key: 'timezone',
+        render: (_, record) => {
+            return (
+                <Space size="middle">
+                    {'UTC ' + (-record.timezone / 60)}
+                </Space>
+            )
+        },
     },
     {
         title: 'lat',
@@ -27,18 +33,6 @@ const columns: ColumnsType<Location> = [
         title: 'lng',
         dataIndex: 'lng',
         key: 'lng',
-    },
-    {
-        title: 'Local Time',
-        key: 'localtime',
-        render: (_, record) => {
-            const date = moment()
-            return (
-                <Space size="middle">
-                    {date.tz(record.timezone).format('h:ma z')}
-                </Space>
-            )
-        },
     },
 ];
 
@@ -58,8 +52,6 @@ function LocationTable() {
         selectedRowKeys,
         onChange: onSelectChange,
     };
-
-
     return (
         <div>
             <div style={{ marginBottom: 16 }}>
