@@ -10,19 +10,24 @@ import { v4 as uuidv4 } from 'uuid';
 
 function LocationSearchPanel({ isLoaded }: { isLoaded: boolean }) {
     const [searchvalue, setSearchvalue] = useState("")
+    const [getCurrent, setGetCurrent] = useState(true)
     const dispatch = useAppDispatch();
     const getCurrentLocation = () => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            const location: Location = {
-                key: uuidv4(),
-                name: "Current Place",
-                lat: position.coords.latitude.toString(),
-                lng: position.coords.longitude.toString(),
-                toggle: false,
-                timezone: new Date().getTimezoneOffset(),
-            }
-            dispatch(addLocation(location))
-        });
+        if (getCurrent) {
+            setGetCurrent(false)
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const location: Location = {
+                    key: uuidv4(),
+                    name: "Current Place",
+                    lat: position.coords.latitude.toString(),
+                    lng: position.coords.longitude.toString(),
+                    toggle: false,
+                    timezone: new Date().getTimezoneOffset(),
+                }
+                dispatch(addLocation(location))
+                setGetCurrent(true)
+            });
+        }
     };
     const standaloneSearchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
 
