@@ -17,6 +17,7 @@ export const locationsSlice = createSlice({
       state.locations.push(payload)
     },
     delLocation: (state: LocationsState, { payload }: PayloadAction<string[]>) => {
+      // eslint-disable-next-line array-callback-return
       payload.map((selected) => {
         state.locations.splice(state.locations.findIndex((location) => location.key === selected), 1);
       })

@@ -3,7 +3,6 @@ import { Button, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import { useAppSelector } from '../../store/hooks';
 import { Location } from '../../types';
-import moment from 'moment-timezone';
 import { delLocation } from '../../store/slice/locations.slice';
 import { useAppDispatch } from '../../store/hooks';
 

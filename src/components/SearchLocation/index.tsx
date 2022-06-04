@@ -50,7 +50,7 @@ function LocationSearchPanel({ isLoaded }: { isLoaded: boolean }) {
                     lat: postions[0].geometry.location.lat().toString(),
                     lng: postions[0].geometry.location.lng().toString(),
                     toggle: false,
-                    timezone: postions[0].utc_offset_minutes,
+                    timezone: -postions[0].utc_offset_minutes,
                 }
 
                 dispatch(addLocation(location))
