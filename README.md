@@ -1,6 +1,9 @@
 # Vite React Redux Toolkit TypeScript Best Practice
 
 This repo is bootstraped with [vite-react-ts-antd-esLint-prettier](https://github.com/Malaaaa/vite-react-ts-antd-esLint-prettier)
+This repo is about practice with some asynchronous function. for the pure relize with google map version
+please checkout  [WithoutThunk branche](https://github.com/Malaaaa/map_marker/tree/WithoutThunk). 
+ 
 
 ## ✨ Features
 

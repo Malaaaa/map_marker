@@ -11,7 +11,7 @@ function LatestSearchedLocation() {
         // Set a timer after each value change
         if (locations.length > 0) {
             const timeout = setInterval(() => {
-                setTime(moment().tz(locations[locations.length - 1].timezone).format('h:mm:ssa z'));
+                setTime(moment().tz(locations[locations.length - 1].timezone).format('h:mm:ss a zz'));
             }, 1000)
             return () => clearTimeout(timeout);
         }
