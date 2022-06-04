@@ -15,7 +15,7 @@ function LocationSearchPanel({ isLoaded }: { isLoaded: boolean }) {
         navigator.geolocation.getCurrentPosition(function (position) {
             const location: Location = {
                 key: uuidv4(),
-                name: "Current Location",
+                name: "Current Place",
                 lat: position.coords.latitude.toString(),
                 lng: position.coords.longitude.toString(),
                 toggle: false,
