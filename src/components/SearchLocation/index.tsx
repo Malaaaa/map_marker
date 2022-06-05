@@ -37,9 +37,10 @@ function LocationSearchPanel({ isLoaded }: { isLoaded: boolean }) {
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setSearchvalue(e.target.value)
     };
+
     const onSearch = () => {
         //Place the event in the macro task to ensure that the location has been checked
-        setTimeout(() => { console.log("") })
+        setTimeout(() => { }, 1000)
         if (standaloneSearchBoxRef.current !== null) {
             const postions = standaloneSearchBoxRef.current.getPlaces()
             // dispatch(fetchLocation({ method: { lat: position, lng: position } }))
