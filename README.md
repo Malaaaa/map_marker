@@ -12,6 +12,18 @@ This repo is bootstraped with [vite-react-ts-antd-esLint-prettier](https://githu
 
 -- use Redux Toolkit manage statement.
 
+## Structure
+
+├─components
+│  ├─LatestSearchedLocation
+│  ├─LocationTable
+│  ├─Map
+│  └─SearchLocation
+├─store
+│  └─slice
+├─types
+└─utils
+
 ## 💄 Project Setup
 
 Node version
